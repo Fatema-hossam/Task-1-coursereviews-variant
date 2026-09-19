@@ -1,12 +1,23 @@
 import { Review } from '../models/Review.js';
 
-// TODO: write a validation schema for create/update per README.md section 2.
-
+const createReviewSchema = Joi.object({
+  courseCode: Joi.string().required(),
+  rating: Joi.number().integer().min(1).max(5).required(),
+  comment: Joi.string().optional(),
+  reviewedBy: Joi.string().optional()
+});
+const updateReviewSchema = Joi.object({
+  courseCode: Joi.string().optional(),
+  rating: Joi.number().integer().min(1).max(5).optional(),
+  comment: Joi.string().optional(),
+  reviewedBy: Joi.string().optional()
+}).min(1);
 // GET /api/reviews
 // TODO: implement per README.md section 3.
 export async function getAllReviews(req, res, next) {
   try {
-    // TODO
+    const reviews = await Review.find();
+    res.json(reviews);
   } catch (err) { next(err); }
 }
 
